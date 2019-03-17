@@ -1,0 +1,47 @@
+signal = signal(:,1); % make mono signal
+
+rms_signal = sqrt(mean(signal.^2)); % calculate rms of the signal
+
+% These are pre-measured values which indicate the rms input to the mic
+% when it is listening to an 87.5 dB signal. rms_output_reference indicates
+% the rms necessary to produce a 87.5 dB sound out of the speaker array.
+
+rms_input_reference = 0.0586;
+rms_output_reference = 0.5773;
+
+% These lines set up the mic to read in the background noise
+mic_recorder = audiorecorder(Fs,16,1);
+recordblocking(mic_recorder, 0.5);
+bg_noise = getaudiodata(mic_recorder);
+
+% This filters the background noise with an A-weighted filter, which is 
+% used by the sound level meter that was used to calibrate. This allows for
+% the conversion of the microphone signal rms to a dB value.
+bg_noise = filterA(bg_noise, Fs);
+
+rms_bg = sqrt(mean(bg_noise.^2); % calculate rms of background noise from microphone input
+
+dB_bg = 87.5 + 20*log10(rms_bg/rms_input_reference); % calculate the dB of background noise
+
+% The following if statement ensures that alerts are not too quiet or particularly loud
+if dB_bg < 40
+  dB_outpt = 50;
+elseif dB_bg > 60
+  dB_output = 70;
+else
+  dB_output = dB_bg + 10;
+end
+
+% Assess the needed rms output so that the sound produced by the speakers will have 
+% the necessary dB output
+rms_output_needed = rms_output_reference .* 10.^((dB_output - 87.5/20);
+
+% Rescale the signal
+signal = (rms_output_needed / rms_signal) .* signal;
+
+% Play the alert
+sound(signal, Fs);
+
+
+
+sound(signal,Fs);
