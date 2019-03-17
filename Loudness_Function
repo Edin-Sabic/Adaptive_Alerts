@@ -1,3 +1,5 @@
+% Please note that this was largely written by Dr. Justin MacDonald at New Mexico State University. 
+
 signal = signal(:,1); % make mono signal
 
 rms_signal = sqrt(mean(signal.^2)); % calculate rms of the signal
