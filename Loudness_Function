@@ -1,4 +1,4 @@
-% Please note that this was largely written by Dr. Justin MacDonald at New Mexico State University. 
+% Please note that this was script was a collaboration with Dr. Justin MacDonald at New Mexico State University. 
 
 signal = signal(:,1); % make mono signal
 
